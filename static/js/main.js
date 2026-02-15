@@ -10,13 +10,13 @@ const DATASETS = {
     baselineLabel: 'Splatter Image',
     type: 'object',
     slides: [
+      { folder: 'chair-7e967a3c6d2a46c3e2d62d6f0e6f01ec', label: 'Chair (2)' },
       { folder: 'bench-b09f17c66d25a38cf155d75bbf62b80', label: 'Bench' },
       { folder: 'car-530234273d5e31a57c7baeeaa3dedfc', label: 'Car (1)' },
-      { folder: 'car-586da8cf648767222a9eb0f146e94477', label: 'Car (2)' },
       { folder: 'chair-21bc90d659dbe28a71aa44dea7a6d383', label: 'Chair (1)' },
-      { folder: 'chair-7e967a3c6d2a46c3e2d62d6f0e6f01ec', label: 'Chair (2)' },
       { folder: 'loudspeaker-869225f275f3dee12a42340e65c9f0ec', label: 'Loudspeaker', baselineFile: 'baseline_render.mp4' },
       { folder: 'monitor-810fac004670692fe9d7a3dffbf25100', label: 'Monitor' },
+      { folder: 'car-586da8cf648767222a9eb0f146e94477', label: 'Car (2)' },
       { folder: 'plane-6ecf2dd001e3b029dc53c0dc42fb387b', label: 'Plane' },
       { folder: 'sofa-adefd541f3b51aba5f5e789acd4d1122', label: 'Sofa' },
       { folder: 'table-9afa121e3aec8bd7c387f328a37d8ece', label: 'Table' },
@@ -490,9 +490,9 @@ function setupIntersectionObserver() {
 // ─── Initialization ──────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Keep teaser video at normal speed.
+  // Set teaser video to 3x speed.
   const teaserVideo = document.querySelector('.teaser-section video');
-  if (teaserVideo) teaserVideo.playbackRate = 1.0;
+  if (teaserVideo) teaserVideo.playbackRate = 3.0;
 
   // Build all carousels from data config
   Object.keys(DATASETS).forEach(key => {
