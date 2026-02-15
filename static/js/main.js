@@ -51,11 +51,11 @@ const DATASETS = {
     baselineLabel: 'CATSplat',
     type: 'scene',
     slides: [
-      { folder: '5a15212752d1659a', label: 'Scene 1' },
-      { folder: '5dadb9b615a66714', label: 'Scene 2' },
       { folder: '7c9971fb046c8d9a', label: 'Scene 3' },
       { folder: '7fdee044fb73c083', label: 'Scene 4' },
       { folder: 'edaf13c2d419ff89', label: 'Scene 5' },
+      { folder: '5dadb9b615a66714', label: 'Scene 2' },
+      { folder: '5a15212752d1659a', label: 'Scene 1' },
     ]
   }
 };
