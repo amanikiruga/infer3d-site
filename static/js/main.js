@@ -6,7 +6,7 @@
 // ─── Dataset Configuration ───────────────────────────────────
 const DATASETS = {
   shapenet: {
-    basePath: '../../results/shapenet/',
+    basePath: './results/shapenet/',
     baselineLabel: 'Splatter Image',
     type: 'object',
     slides: [
@@ -23,7 +23,7 @@ const DATASETS = {
     ]
   },
   hydrants: {
-    basePath: '../../results/hydrants/',
+    basePath: './results/hydrants/',
     baselineLabel: 'Splatter Image',
     type: 'object',
     slides: [
@@ -35,7 +35,7 @@ const DATASETS = {
     ]
   },
   vases: {
-    basePath: '../../results/vases/',
+    basePath: './results/vases/',
     baselineLabel: 'Splatter Image',
     type: 'object',
     slides: [
@@ -47,7 +47,7 @@ const DATASETS = {
     ]
   },
   re10k: {
-    basePath: '../../results/re10k/',
+    basePath: './results/re10k/',
     baselineLabel: 'CATSplat',
     type: 'scene',
     slides: [
