@@ -268,10 +268,6 @@ function initCarouselController(container) {
     slides[current].classList.add('active');
     dots[current].classList.add('active');
 
-    // Update counter
-    const counter = container.querySelector('.carousel-counter');
-    if (counter) counter.textContent = `${current + 1} / ${total}`;
-
     // Play & sync videos
     syncAndPlayVideos(slides[current]);
   }
@@ -492,7 +488,7 @@ function setupIntersectionObserver() {
 document.addEventListener('DOMContentLoaded', () => {
   // Set teaser video to 3x speed.
   const teaserVideo = document.querySelector('.teaser-section video');
-  if (teaserVideo) teaserVideo.playbackRate = 3.0;
+  if (teaserVideo) teaserVideo.playbackRate = 1.5;
 
   // Build all carousels from data config
   Object.keys(DATASETS).forEach(key => {
