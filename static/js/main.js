@@ -326,10 +326,14 @@ function syncAndPlayVideos(slideEl) {
   const carouselName = carouselContainer?.dataset.carousel;
   const shouldSpeedUp = carouselName === 'hydrants' || carouselName === 'vases';
   const playbackRate = shouldSpeedUp ? 5.0 : 1.0;
+  const applyPlaybackRate = (video) => {
+    video.defaultPlaybackRate = playbackRate;
+    video.playbackRate = playbackRate;
+  };
 
   // Always set explicit playback speed so non-target carousels stay at 1x.
   videos.forEach(v => {
-    v.playbackRate = playbackRate;
+    applyPlaybackRate(v);
   });
 
   // Cancel any existing sync
@@ -371,6 +375,7 @@ function syncAndPlayVideos(slideEl) {
       const onCanPlay = () => {
         v.removeEventListener('canplay', onCanPlay);
         v.removeEventListener('loadedmetadata', onCanPlay);
+        applyPlaybackRate(v);
         checkReady();
       };
       v.addEventListener('canplay', onCanPlay);
@@ -380,7 +385,10 @@ function syncAndPlayVideos(slideEl) {
 
   function startSync() {
     // Play all videos
-    const playPromises = videos.map(v => v.play().catch(() => {}));
+    const playPromises = videos.map(v => {
+      applyPlaybackRate(v);
+      return v.play().catch(() => {});
+    });
     
     Promise.all(playPromises).then(() => {
       // Small delay to let videos stabilize
@@ -412,14 +420,14 @@ function syncAndPlayVideos(slideEl) {
             if (videos[i] === master) continue;
             
             if (videos[i].paused && !videos[i].ended) {
-              videos[i].playbackRate = playbackRate;
+              applyPlaybackRate(videos[i]);
               videos[i].play().catch(() => {});
               continue;
             }
             
             if (videos[i].ended) {
               videos[i].currentTime = 0;
-              videos[i].playbackRate = playbackRate;
+              applyPlaybackRate(videos[i]);
               videos[i].play().catch(() => {});
               continue;
             }
@@ -441,7 +449,7 @@ function syncAndPlayVideos(slideEl) {
         function onMasterEnded() {
           videos.forEach(v => {
             v.currentTime = 0;
-            v.playbackRate = playbackRate;
+            applyPlaybackRate(v);
             v.play().catch(() => {});
           });
         }
