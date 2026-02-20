@@ -488,7 +488,7 @@ function setupIntersectionObserver() {
 document.addEventListener('DOMContentLoaded', () => {
   // Set teaser video to 3x speed.
   const teaserVideo = document.querySelector('.teaser-section video');
-  if (teaserVideo) teaserVideo.playbackRate = 2.0;
+  if (teaserVideo) teaserVideo.playbackRate = 1.7;
 
   // Build all carousels from data config
   Object.keys(DATASETS).forEach(key => {
