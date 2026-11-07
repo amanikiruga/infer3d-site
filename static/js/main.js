@@ -57,6 +57,32 @@ const DATASETS = {
       { folder: '5dadb9b615a66714', label: 'Scene 2' },
       { folder: '5a15212752d1659a', label: 'Scene 1' },
     ]
+  },
+  realcars: {
+    basePath: './results/realcars/',
+    type: 'realcars',
+    slides: [
+      { folder: '04', label: 'Car 04' },
+      { folder: '05', label: 'Car 05' },
+      { folder: '10', label: 'Car 10' },
+      { folder: '12', label: 'Car 12' },
+      { folder: '15', label: 'Car 15' },
+      { folder: '13', label: 'Car 13' },
+      { folder: '11', label: 'Car 11' },
+      { folder: '08', label: 'Car 08' },
+      { folder: '09', label: 'Car 09' },
+      { folder: '01', label: 'Car 01' },
+      // { folder: '02', label: 'Car 02' },
+      // { folder: '03', label: 'Car 03' },
+      // { folder: '06', label: 'Car 06' },
+      // { folder: '07', label: 'Car 07' },
+      // { folder: '14', label: 'Car 14' },
+      // { folder: '16', label: 'Car 16' },
+      // { folder: '17', label: 'Car 17' },
+      // { folder: '18', label: 'Car 18' },
+      // { folder: '19', label: 'Car 19' },
+      // { folder: '00', label: 'Car 00' },
+    ]
   }
 };
 
@@ -149,6 +175,25 @@ function panelStackedThree(basePath, slide, isFirst) {
     </div>`;
 }
 
+function panelStackedHorizontalTwo(label, srcA, labelA, srcB, labelB, isFirst) {
+  return `
+    <div class="panel panel-stacked-h">
+      <p class="panel-label">${label}</p>
+      <div class="panel-media">
+        <div class="stacked-images-h">
+          <div class="stacked-item-h">
+            <p class="sub-label">${labelA}</p>
+            ${makeImageEl(srcA, isFirst)}
+          </div>
+          <div class="stacked-item-h">
+            <p class="sub-label">${labelB}</p>
+            ${makeImageEl(srcB, isFirst)}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
 function mechanismPanelImage(label, src, isFirst) {
   return `
     <div class="mechanism-item">
@@ -203,6 +248,19 @@ function buildCarousel(container, config) {
 
       // Row 2: mechanism / intermediate visualizations
       html += `<div class="intermediate-row">${panelMechanismThree(basePath, isFirst)}</div>`;
+    } else if (config.type === 'realcars') {
+      html += '<div class="comparison-panels realcars-main-panels">';
+      html += panelStackedHorizontalTwo(
+        'OOD Input',
+        basePath + 'gt_bg.png',    'w/ background',
+        basePath + 'gt_white.png', 'w/o background',
+        isFirst
+      );
+      html += panelVideo('Splatter Image',  basePath + 'splatter.mp4', isFirst);
+      html += panelVideo('LGM',             basePath + 'lgm.mp4',      isFirst);
+      html += panelVideo('SF3D',            basePath + 'sf3d.mp4',     isFirst);
+      html += panelVideo('Infer3D (Ours)',  basePath + 'ours.mp4',     isFirst);
+      html += '</div>';
     } else {
       html += '<div class="comparison-panels object-main-panels">';
       html += panelImage('OOD Input', basePath + 'ood_image.png', isFirst);
@@ -223,22 +281,26 @@ function buildCarousel(container, config) {
     dotsContainer.appendChild(dot);
   });
 
-  // Toggle for intermediate rows (hidden by default)
-  const toggle = document.createElement('button');
-  toggle.type = 'button';
-  toggle.className = 'intermediate-toggle';
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.textContent = 'Click to see our intermediate outputs';
-  toggle.addEventListener('click', () => {
-    const expanded = container.classList.toggle('show-intermediate');
-    toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    toggle.textContent = expanded
-      ? 'Hide our intermediate outputs'
-      : 'Click to see our intermediate outputs';
-  });
-  const controls = container.querySelector('.carousel-controls');
-  if (controls) {
-    controls.insertAdjacentElement('beforebegin', toggle);
+  // Toggle for intermediate rows (skip for configs with no intermediate row).
+  // Default: expanded.
+  if (config.type !== 'realcars') {
+    container.classList.add('show-intermediate');
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'intermediate-toggle';
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.textContent = 'Hide our intermediate outputs';
+    toggle.addEventListener('click', () => {
+      const expanded = container.classList.toggle('show-intermediate');
+      toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      toggle.textContent = expanded
+        ? 'Hide our intermediate outputs'
+        : 'Click to see our intermediate outputs';
+    });
+    const controls = container.querySelector('.carousel-controls');
+    if (controls) {
+      controls.insertAdjacentElement('beforebegin', toggle);
+    }
   }
 
   initCarouselController(container, config);
